@@ -1,0 +1,36 @@
+{% extends "django_deepface_demo/base.html" %}
+
+{% block title %}Welcome - Django DeepFace Demo{% endblock %}
+
+{% block content %}
+<div class="text-center mb-4">
+    <h1>Welcome to Django DeepFace Demo</h1>
+    <p class="lead">A demonstration of face recognition capabilities using Django and DeepFace</p>
+</div>
+
+<div class="row">
+    <div class="col-md-8 mx-auto">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Features</h5>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">Face Detection</li>
+                    <li class="list-group-item">Face Recognition</li>
+                    <li class="list-group-item">Emotion Analysis</li>
+                    <li class="list-group-item">Age and Gender Estimation</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% if user.is_authenticated %}
+<div class="alert alert-success mt-4">
+    Welcome back, {{ user.username }}!
+</div>
+{% else %}
+<div class="alert alert-warning mt-4">
+    Please <a href="{% url 'django_deepface:login' %}" class="alert-link">log in</a> to access all features.
+</div>
+{% endif %}
+{% endblock %}

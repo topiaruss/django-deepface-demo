@@ -1,0 +1,89 @@
+{% extends "django_deepface_demo/base.html" %}
+{% load static %}
+
+{% block title %}Device Statistics - Django DeepFace Demo{% endblock %}
+
+{% block extrastyle %}
+{{ block.super }}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col">
+        <h2>Device Statistics</h2>
+
+        <div class="row mt-4">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="card-title">Browser Statistics</h3>
+                        <canvas id="browserChart"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="card-title">OS Statistics</h3>
+                        <canvas id="osChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="card-title">Device Type Statistics</h3>
+                        <canvas id="deviceChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{{ browser_stats|json_script:"browser-stats-data" }}
+{{ os_stats|json_script:"os-stats-data" }}
+{{ device_stats|json_script:"device-stats-data" }}
+
+{% block extrajs %}
+<script>
+    function createChart(canvasId, data, labels) {
+        const ctx = document.getElementById(canvasId).getContext('2d');
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Count',
+                    data: data.map(d => d.count),
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    }
+
+    // Parse data from JSON script tags
+    const browserStats = JSON.parse(document.getElementById('browser-stats-data').textContent);
+    const osStats = JSON.parse(document.getElementById('os-stats-data').textContent);
+    const deviceStats = JSON.parse(document.getElementById('device-stats-data').textContent);
+
+    createChart('browserChart', browserStats, browserStats.map(d => d.browser));
+    createChart('osChart', osStats, osStats.map(d => d.os));
+    createChart('deviceChart', deviceStats, deviceStats.map(d => d.device_type));
+</script>
+{% endblock %}
+{% endblock %}

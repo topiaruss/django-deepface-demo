@@ -1,45 +1,67 @@
-# django-deepface-demo
+# Django DeepFace Demo
 
-This repository demonstrates the django-deepface library, which integrates the deepface library into a Django project. It provides a lightweight test harness for django-deepface, allowing you to run and test the integration in a controlled environment.
+A Django application that demonstrates face recognition and authentication using DeepFace.
 
-## ensuring Python 3.11 - don't use 3.12 or 3.13 - tensorflow issues on M3
+## Features
 
-  ```bash
-  brew install python@3.11
-  python3.11 -m venv .venv
-  pip install uv
-  uv pip install -r requirements.txt 
-  
-  ```
+- Face-based user authentication
+- Device tracking and statistics
+- Admin interface for monitoring
+- Secure image handling
 
- 
-## Setup
+## Installation
 
-## pg
+1. Clone the repository:
 ```bash
-PGPASSWORD=postgres psql -h localhost -p 5432 -U postgres -d vectordb
-psql (14.16 (Homebrew), server 17.4 (Debian 17.4-1.pgdg120+2))
-WARNING: psql major version 14, server major version 17.
-                                                             ^
-vectordb=# create extension if not exists vector;
-CREATE EXTENSION
-vectordb=# CREATE table identities (ID INT primary key, IMG_PATH varchar(180), embedding vector(128));
-CREATE TABLE
-
+git clone https://github.com/yourusername/django-deepface-demo.git
+cd django-deepface-demo
 ```
 
-# Running Tests
+2. Create and activate a virtual environment:
+```bash
+python -m venv .venv
+source .venv/bin/activate  # On Windows: .venv\Scripts\activate
+```
 
-You can run the django_deepface test suite from this project. The test harness is set up so that all upstream tests run in your environment, using your settings and database.
+3. Install dependencies:
+```bash
+uv pip install -r requirements.txt
+```
 
-- To run all tests (your own and django_deepface's):
-  ```bash
-  make test-all
-  ```
+4. Run migrations:
+```bash
+python manage.py migrate
+```
 
-- To run only the django_deepface suite:
-  ```bash
-  make test-specific test="dftest/tests/test_deepface_suite.py -v"
-  ```
+5. Create a superuser:
+```bash
+python manage.py createsuperuser
+```
 
-All required fixtures and test images are included, so the upstream suite will run and pass as part of your workflow.
+6. Run the development server:
+```bash
+python manage.py runserver
+```
+
+## Usage
+
+1. Visit http://localhost:8000/admin/ to access the admin interface
+2. Create a user profile and upload a face image
+3. Use the face login feature at http://localhost:8000/face-login/
+4. View device statistics at http://localhost:8000/demo/device-stats/
+
+## Testing
+
+Run all tests:
+```bash
+make test-all
+```
+
+Run specific tests:
+```bash
+make test-specific test="django_deepface_demo/tests/test_deepface_suite.py -v"
+```
+
+## License
+
+MIT
