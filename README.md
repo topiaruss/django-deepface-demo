@@ -47,7 +47,7 @@ python manage.py runserver
 
 1. Visit http://localhost:8000/admin/ to access the admin interface
 2. Create a user profile and upload a face image
-3. Use the face login feature at http://localhost:8000/face-login/
+3. Use the face login feature at http://localhost:8000/face/login/
 4. View device statistics at http://localhost:8000/demo/device-stats/
 
 ## Testing

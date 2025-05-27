@@ -1,6 +1,8 @@
 """Test URL patterns for django_deepface_demo."""
+
 from django.test import TestCase
 from django.urls import reverse, resolve
+
 
 class URLTests(TestCase):
     """Test URL patterns."""
@@ -15,4 +17,4 @@ class URLTests(TestCase):
         """Test index URL."""
         url = reverse("django_deepface_demo:index")
         self.assertEqual(url, "/demo/")
-        self.assertEqual(resolve(url).func.__name__, "index") 
+        self.assertEqual(resolve(url).func.__name__, "index")

@@ -54,7 +54,9 @@ TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
         "DIRS": [
-            os.path.join(BASE_DIR, "django-deepface-package", "django_deepface", "templates"),
+            os.path.join(
+                BASE_DIR, "django-deepface-package", "django_deepface", "templates"
+            ),
             os.path.join(BASE_DIR, "django_deepface_demo", "templates"),
         ],
         "APP_DIRS": True,
@@ -135,8 +137,8 @@ LOGIN_REDIRECT_URL = "django_deepface_demo:index"
 LOGOUT_REDIRECT_URL = "django_deepface:login"
 
 # DeepFace settings
-DEEPFACE_LOGIN_REDIRECT_URL = "django_deepface:index"
+DEEPFACE_LOGIN_REDIRECT_URL = "django_deepface_demo:index"
 DEEPFACE_LOGOUT_REDIRECT_URL = "django_deepface:login"
 
 MEDIA_URL = "/media/"
-MEDIA_ROOT = os.path.join(BASE_DIR, "media") 
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
