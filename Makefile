@@ -1,4 +1,4 @@
-.PHONY: init run test-all test-specific clean db-migrate package-install package-uninstall package-test package-build
+.PHONY: init run test-all test-specific clean db-migrate package-install package-uninstall package-test package-build db-up db-down db-reset
 
 # Initialize virtual environment and install dependencies
 init:
@@ -7,6 +7,9 @@ init:
 	. .venv/bin/activate && uv pip install -r requirements.txt
 
 # Run Django development server
+csu:
+	. .venv/bin/activate && python manage.py createsuperuser
+
 run:
 	. .venv/bin/activate && python manage.py runserver
 
@@ -25,6 +28,19 @@ test-specific:
 db-migrate:
 	. .venv/bin/activate && python manage.py makemigrations
 	. .venv/bin/activate && python manage.py migrate
+
+# Database management with Docker
+db-up:
+	docker-compose up -d
+
+db-down:
+	docker-compose down
+
+db-reset:
+	docker-compose down -v
+	docker-compose up -d
+	sleep 3  # Wait for database to be ready
+	make db-migrate
 
 # Package development commands
 package-install:

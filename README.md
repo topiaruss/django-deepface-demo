@@ -13,7 +13,7 @@ A Django application that demonstrates face recognition and authentication using
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/yourusername/django-deepface-demo.git
+git clone https://github.com/topiaruss/django-deepface-demo.git
 cd django-deepface-demo
 ```
 
@@ -28,26 +28,59 @@ source .venv/bin/activate  # On Windows: .venv\Scripts\activate
 uv pip install -r requirements.txt
 ```
 
-4. Run migrations:
+4. Set up PostgreSQL with pgvector:
+
+   **Option 1: Using Docker (Recommended)**
+   ```bash
+   make db-up
+   ```
+   This will start a PostgreSQL database with pgvector extension pre-installed.
+
+   **Option 2: Manual Installation**
+   - Install PostgreSQL if not already installed
+   - Install the pgvector extension:
+     ```bash
+     # On macOS with Homebrew
+     brew install pgvector
+     
+     # On Ubuntu/Debian
+     sudo apt install postgresql-16-pgvector
+     
+     # On other systems, see: https://github.com/pgvector/pgvector#installation
+     ```
+   - Create a database and enable the extension:
+     ```sql
+     CREATE DATABASE deepface;
+     CREATE EXTENSION IF NOT EXISTS vector;
+     ```
+
+5. Configure database connection:
+   - Create a `.env` file in the project root:
+     ```bash
+     DATABASE_URL=postgresql://postgres:postgres@localhost:5432/deepface
+     ```
+   - If using manual PostgreSQL installation, adjust the connection string accordingly
+
+6. Run migrations:
 ```bash
-python manage.py migrate
+make db-migrate
 ```
 
-5. Create a superuser:
+7. Create a superuser:
 ```bash
-python manage.py createsuperuser
+make csu
 ```
 
-6. Run the development server:
+8. Run the development server:
 ```bash
-python manage.py runserver
+make run
 ```
 
 ## Usage
 
-1. Visit http://localhost:8000/admin/ to access the admin interface
-2. Create a user profile and upload a face image
-3. Use the face login feature at http://localhost:8000/face/login/
+1. Visit http://localhost:8000/face/login/ to do the initial login
+2. Follow the profile link and upload a face image, using your webcam if you like
+3. Logout, then login with the face login feature at http://localhost:8000/face/login/
 4. View device statistics at http://localhost:8000/demo/device-stats/
 
 ## Testing
