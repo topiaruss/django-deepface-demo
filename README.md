@@ -1,13 +1,16 @@
 # Django DeepFace Demo
 
-A Django application that demonstrates face recognition and authentication using DeepFace.
+A Django application that demonstrates face recognition and authentication using my [django-deepface](https://github.com/topiaruss/django-deepface) library.
 
 ## Features
 
-- Face-based user authentication
-- Device tracking and statistics
-- Admin interface for monitoring
-- Secure image handling
+- 🔐 Face recognition authentication alongside traditional password authentication
+- 📸 Capture face images via webcam or file upload
+- ⏱️ Webcam device tracking and statistics - to prevew viability in your org
+- 🚀 Fast face matching using pgvector similarity search
+- 👤 Support for multiple face images per user (up to 4)
+- 🎨 Modern, responsive UI with Bootstrap 5
+- 🔒 Secure storage and processing of biometric data
 
 ## Installation
 
