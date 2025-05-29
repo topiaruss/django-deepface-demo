@@ -1,4 +1,4 @@
-.PHONY: init run test-all test-specific clean db-migrate package-install package-uninstall package-test package-build db-up db-down db-reset
+.PHONY: init run test-all test-specific clean db-migrate package-install package-uninstall package-test package-build db-up db-down db-reset prod-build prod-up prod-down prod-logs prod-shell
 
 # Initialize virtual environment and install dependencies
 init:
@@ -69,4 +69,20 @@ clean:
 	find . -type d -name "htmlcov" -exec rm -r {} +
 	find . -type d -name ".mypy_cache" -exec rm -r {} +
 	find . -type d -name ".ruff_cache" -exec rm -r {} +
-	find . -type d -name ".hypothesis" -exec rm -r {} + 
+	find . -type d -name ".hypothesis" -exec rm -r {} +
+
+# Production deployment targets
+prod-build:
+	docker-compose -f docker-compose.prod.yml build
+
+prod-up:
+	docker-compose -f docker-compose.prod.yml up -d
+
+prod-down:
+	docker-compose -f docker-compose.prod.yml down
+
+prod-logs:
+	docker-compose -f docker-compose.prod.yml logs -f
+
+prod-shell:
+	docker-compose -f docker-compose.prod.yml exec web bash 

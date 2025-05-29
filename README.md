@@ -101,3 +101,7 @@ make test-specific test="django_deepface_demo/tests/test_deepface_suite.py -v"
 ## License
 
 MIT
+
+## Production Deployment
+
+For production deployment using Docker, see [DEPLOYMENT.md](DEPLOYMENT.md).
