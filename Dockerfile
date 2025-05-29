@@ -34,6 +34,9 @@ COPY requirements.txt .
 # Install Python dependencies using uv
 RUN uv pip install --system -r requirements.txt
 
+# Pre-download DeepFace models to avoid runtime downloads
+RUN python -c "from deepface import DeepFace; DeepFace.build_model('VGG-Face')"
+
 # Copy project files
 COPY . .
 
