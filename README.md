@@ -86,6 +86,24 @@ make run
 3. Logout, then login with the face login feature at http://localhost:8000/face/login/
 4. View device statistics at http://localhost:8000/demo/device-stats/
 
+### Device Statistics Dashboard
+
+The application includes a comprehensive device statistics dashboard that helps you understand how users are accessing the face recognition features:
+
+![Device Statistics Dashboard](DeviceStats.webp)
+
+This dashboard provides valuable insights into:
+- **Browser Usage**: See which browsers (Chrome, Firefox, Safari, etc.) are being used for face capture
+- **Device Types**: Track whether users are on desktop, mobile, or tablet devices
+- **Operating Systems**: Monitor the distribution of Windows, macOS, Linux, iOS, and Android users
+- **Success Rates**: Analyze face recognition success rates across different platforms
+
+This information is particularly useful for:
+- Understanding your user base's technical capabilities
+- Identifying potential compatibility issues with specific browsers or devices
+- Making informed decisions about which platforms to prioritize for support
+- Predicting success of face authentication in your organization
+
 ## Testing
 
 Run all tests:
