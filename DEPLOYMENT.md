@@ -35,6 +35,17 @@ The application will be available at:
 - http://localhost (nginx)
 - http://localhost:8000 (direct Django/Gunicorn access)
 
+## Quick Test
+
+1. Login as normal as the superuser created above (name and password)
+
+2. Go to profile, add a couple of images
+
+3. Log out
+
+4. Log in again, but use face login. Just give the same username, no password. Create a face image, click Login. 
+
+
 ## Configuration
 
 ### Environment Variables

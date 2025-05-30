@@ -12,6 +12,12 @@ A Django application that demonstrates face recognition and authentication using
 - 🎨 Modern, responsive UI with Bootstrap 5
 - 🔒 Secure storage and processing of biometric data
 
+
+## Docker Deployment
+
+For a production-like deployment using Docker, see [DEPLOYMENT.md](DEPLOYMENT.md).
+
+
 ## Installation
 
 1. Clone the repository:
@@ -120,6 +126,3 @@ make test-specific test="django_deepface_demo/tests/test_deepface_suite.py -v"
 
 MIT
 
-## Production Deployment
-
-For production deployment using Docker, see [DEPLOYMENT.md](DEPLOYMENT.md).
