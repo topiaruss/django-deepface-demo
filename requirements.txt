@@ -11,5 +11,5 @@ pytest-cov
 
 # Production server
 gunicorn==23.0.0
-django-deepface==0.0.3
+django-deepface==0.0.5
 

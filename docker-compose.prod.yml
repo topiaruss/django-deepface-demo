@@ -4,7 +4,7 @@ services:
     environment:
       POSTGRES_DB: deepface
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-strongpassword123}
+      POSTGRES_PASSWORD: postgres
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
@@ -18,7 +18,7 @@ services:
     build: .
     command: gunicorn --bind 0.0.0.0:8000 --workers 3 django_deepface_demo.wsgi:application
     environment:
-      - DATABASE_URL=postgresql://postgres:${POSTGRES_PASSWORD:-strongpassword123}@db:5432/deepface
+      - DATABASE_URL=postgresql://postgres:postgres@db:5432/deepface
       - DJANGO_SECRET_KEY=${DJANGO_SECRET_KEY:-your-secret-key-here}
       - DJANGO_DEBUG=${DJANGO_DEBUG:-False}
       - DJANGO_ALLOWED_HOSTS=${DJANGO_ALLOWED_HOSTS:-localhost,127.0.0.1}
