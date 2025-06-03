@@ -1,0 +1,73 @@
+# Custom values for deploying to Kubernetes with external registry
+image:
+  repository: registry.ogaro.com/django-deepface-demo
+  tag: "latest"
+  pullPolicy: Always
+
+imagePullSecrets:
+  - name: registry-ogaro-com
+
+# Enable ingress for external access
+ingress:
+  enabled: true
+  className: ""
+  annotations: {}
+  hosts:
+    - host: django-deepface-demo.local
+      paths:
+        - path: /
+          pathType: Prefix
+  tls: []
+
+# Django configuration
+django:
+  debug: false
+  allowedHosts: "django-deepface-demo.local,localhost,127.0.0.1"
+  secretKey: ""  # Will be auto-generated
+  database:
+    external: true
+    password: "postgres123"
+
+# PostgreSQL configuration
+postgresql:
+  enabled: false
+  auth:
+    postgresPassword: "postgres123"
+
+# Reduced resource limits to avoid scheduling issues
+resources:
+  limits:
+    cpu: 500m
+    memory: 2Gi  # Increased for DeepFace models
+  requests:
+    cpu: 100m
+    memory: 1Gi  # Increased baseline
+
+# Extended probe timeouts for DeepFace loading
+livenessProbe:
+  httpGet:
+    path: /demo/
+    port: http
+  initialDelaySeconds: 120  # Wait 2 minutes before first check
+  periodSeconds: 30         # Check every 30 seconds
+  timeoutSeconds: 10        # Allow 10 seconds for response
+  failureThreshold: 5       # Allow 5 failures before restart
+
+readinessProbe:
+  httpGet:
+    path: /demo/
+    port: http
+  initialDelaySeconds: 60   # Wait 1 minute before first check
+  periodSeconds: 15         # Check every 15 seconds
+  timeoutSeconds: 10        # Allow 10 seconds for response
+  failureThreshold: 10      # Allow 10 failures before marking unready
+
+# Autoscaling disabled for demo
+autoscaling:
+  enabled: false
+
+# Storage for media files
+django:
+  media:
+    size: 5Gi
+    # storageClass: ""  # Use default storage class

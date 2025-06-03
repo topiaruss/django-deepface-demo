@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "django-deepface-demo.fullname" . }}
+  labels:
+    {{- include "django-deepface-demo.labels" . | nindent 4 }}
+data:
+  DJANGO_SETTINGS_MODULE: "django_deepface_demo.settings"
+  DEBUG: {{ .Values.django.debug | quote }}
+  ALLOWED_HOSTS: {{ .Values.django.allowedHosts | quote }}
+  {{- if .Values.django.database.external }}
+  DATABASE_HOST: {{ .Values.django.database.host | quote }}
+  DATABASE_PORT: {{ .Values.django.database.port | quote }}
+  DATABASE_NAME: {{ .Values.django.database.name | quote }}
+  DATABASE_USER: {{ .Values.django.database.user | quote }}
+  {{- else }}
+  DATABASE_HOST: "{{ include "django-deepface-demo.fullname" . }}-postgresql"
+  DATABASE_PORT: "5432"
+  DATABASE_NAME: {{ .Values.postgresql.auth.database | quote }}
+  DATABASE_USER: {{ .Values.postgresql.auth.username | default "postgres" | quote }}
+  {{- end }}
+  {{- with .Values.env }}
+  {{- range . }}
+  {{ .name }}: {{ .value | quote }}
+  {{- end }}
+  {{- end }}

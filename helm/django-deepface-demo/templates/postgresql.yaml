@@ -1,0 +1,61 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "django-deepface-demo.fullname" . }}-postgresql
+  labels:
+    {{- include "django-deepface-demo.labels" . | nindent 4 }}
+    component: postgresql
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      {{- include "django-deepface-demo.selectorLabels" . | nindent 6 }}
+      component: postgresql
+  template:
+    metadata:
+      labels:
+        {{- include "django-deepface-demo.selectorLabels" . | nindent 8 }}
+        component: postgresql
+    spec:
+      containers:
+      - name: postgresql
+        image: pgvector/pgvector:pg16
+        ports:
+        - containerPort: 5432
+        env:
+        - name: POSTGRES_DB
+          value: "deepface"
+        - name: POSTGRES_USER
+          value: "postgres"
+        - name: POSTGRES_PASSWORD
+          value: "postgres123"
+        - name: PGDATA
+          value: /var/lib/postgresql/data/pgdata
+        volumeMounts:
+        - name: postgresql-data
+          mountPath: /var/lib/postgresql/data
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "100m"
+          limits:
+            memory: "512Mi"
+            cpu: "250m"
+      volumes:
+      - name: postgresql-data
+        emptyDir: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "django-deepface-demo.fullname" . }}-postgresql
+  labels:
+    {{- include "django-deepface-demo.labels" . | nindent 4 }}
+    component: postgresql
+spec:
+  ports:
+  - port: 5432
+    targetPort: 5432
+  selector:
+    {{- include "django-deepface-demo.selectorLabels" . | nindent 4 }}
+    component: postgresql 
