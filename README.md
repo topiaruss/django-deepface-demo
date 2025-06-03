@@ -13,9 +13,13 @@ A Django application that demonstrates face recognition and authentication using
 - 🔒 Secure storage and processing of biometric data
 
 
-## Docker Deployment
+## Deployment Options
 
+### Docker Deployment
 For a production-like deployment using Docker, see [DEPLOYMENT.md](DEPLOYMENT.md).
+
+### Kubernetes Deployment
+For Kubernetes deployment using Helm, see the [Kubernetes Deployment](#kubernetes-deployment) section below.
 
 
 ## Installation
@@ -136,6 +140,119 @@ make test-all
 Run specific tests:
 ```bash
 make test-specific test="django_deepface_demo/tests/test_deepface_suite.py -v"
+```
+
+## Kubernetes Deployment
+
+This project includes a Helm chart for easy deployment to Kubernetes clusters.
+
+### Prerequisites
+
+- Kubernetes cluster (1.19+)
+- Helm 3.x installed
+- kubectl configured to access your cluster
+- Container registry access to push the application image
+
+### Building and Pushing the Docker Image
+
+First, build and push the application image to your container registry:
+
+```bash
+# Build the image (you'll need to update the image name/tag)
+docker build -t your-registry/django-deepface-demo:latest .
+
+# Push to your registry
+docker push your-registry/django-deepface-demo:latest
+```
+
+### Helm Deployment Commands
+
+```bash
+# Validate the Helm chart
+make helm-lint
+
+# Preview the generated Kubernetes manifests
+make helm-template
+
+# Install the application
+make helm-install
+
+# Upgrade an existing installation
+make helm-upgrade
+
+# Uninstall the application
+make helm-uninstall
+```
+
+### Custom Configuration
+
+Create a custom `values.yaml` file to override default settings:
+
+```yaml
+# custom-values.yaml
+image:
+  repository: your-registry/django-deepface-demo
+  tag: "latest"
+
+ingress:
+  enabled: true
+  className: "nginx"
+  hosts:
+    - host: deepface.yourdomain.com
+      paths:
+        - path: /
+          pathType: Prefix
+
+django:
+  allowedHosts: "deepface.yourdomain.com"
+
+postgresql:
+  auth:
+    postgresPassword: "your-secure-password"
+
+resources:
+  limits:
+    cpu: 500m
+    memory: 512Mi
+  requests:
+    cpu: 250m
+    memory: 256Mi
+```
+
+Then deploy with custom values:
+
+```bash
+helm install django-deepface-demo helm/django-deepface-demo \
+  -f custom-values.yaml \
+  --create-namespace \
+  --namespace django-deepface-demo
+```
+
+### Accessing the Application
+
+After deployment, you can access the application:
+
+```bash
+# Port forward to access locally
+kubectl port-forward -n django-deepface-demo svc/django-deepface-demo 8000:8000
+
+# Or check ingress (if enabled)
+kubectl get ingress -n django-deepface-demo
+```
+
+The application will be available at http://localhost:8000/demo/
+
+### Monitoring and Logs
+
+```bash
+# View pods
+kubectl get pods -n django-deepface-demo
+
+# View logs
+kubectl logs -n django-deepface-demo deployment/django-deepface-demo
+
+# View PostgreSQL logs
+kubectl logs -n django-deepface-demo deployment/django-deepface-demo-postgresql
 ```
 
 ## License
