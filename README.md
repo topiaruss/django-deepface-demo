@@ -26,15 +26,21 @@ git clone https://github.com/topiaruss/django-deepface-demo.git
 cd django-deepface-demo
 ```
 
-2. Create and activate a virtual environment:
+2. Install uv if you don't have it:
 ```bash
-python -m venv .venv
-source .venv/bin/activate  # On Windows: .venv\Scripts\activate
+# On macOS and Linux
+curl -LsSf https://astral.sh/uv/install.sh | sh
+
+# On Windows
+powershell -c "irm https://astral.sh/uv/install.ps1 | iex"
+
+# Or with pip
+pip install uv
 ```
 
-3. Install dependencies:
+3. Initialize the project (creates virtual environment and installs dependencies):
 ```bash
-uv pip install -r requirements.txt
+make init
 ```
 
 4. Set up PostgreSQL with pgvector:
@@ -84,6 +90,16 @@ make csu
 ```bash
 make run
 ```
+
+## Dependency Management
+
+This project uses [uv](https://github.com/astral-sh/uv) for fast Python package management:
+
+- **Development dependencies**: `make install-dev` or `uv sync --extra dev`
+- **Production dependencies**: `make install-prod` or `uv sync --extra prod --no-dev`
+- **Add new dependencies**: `uv add package-name`
+- **Remove dependencies**: `uv remove package-name`
+- **Update dependencies**: `uv sync`
 
 ## Usage
 

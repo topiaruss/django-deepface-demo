@@ -1,33 +1,43 @@
-.PHONY: init run test-all test-specific clean db-migrate package-install package-uninstall package-test package-build db-up db-down db-reset prod-build prod-up prod-down prod-logs prod-shell
+.PHONY: init run test-all test-specific clean db-migrate package-install package-uninstall package-test package-build db-up db-down db-reset prod-build prod-up prod-down prod-logs prod-shell sync install-dev install-prod
 
-# Initialize virtual environment and install dependencies
+# Initialize project with uv
 init:
-	python -m venv .venv
-	. .venv/bin/activate && pip install uv
-	. .venv/bin/activate && uv pip install -r requirements.txt
+	uv sync
+
+# Install development dependencies
+install-dev:
+	uv sync --extra dev
+
+# Install production dependencies only
+install-prod:
+	uv sync --extra prod --no-dev
+
+# Sync dependencies (equivalent to npm install)
+sync:
+	uv sync
 
 # Run Django development server
 csu:
-	. .venv/bin/activate && python manage.py createsuperuser
+	uv run python manage.py createsuperuser
 
 run:
-	. .venv/bin/activate && python manage.py runserver
+	uv run python manage.py runserver
 
 # Run all tests
 test-all:
-	. .venv/bin/activate && pytest --ff  --cov=django_deepface --cov-report=html
+	uv run pytest --ff  --cov=django_deepface --cov-report=html
 
 test-all-first:
-	. .venv/bin/activate && pytest --ff -x 
+	uv run pytest --ff -x 
 
 # Run specific test
 test-specific:
-	. .venv/bin/activate && pytest $(test)
+	uv run pytest $(test)
 
 # Create and apply database migrations
 db-migrate:
-	. .venv/bin/activate && python manage.py makemigrations
-	. .venv/bin/activate && python manage.py migrate
+	uv run python manage.py makemigrations
+	uv run python manage.py migrate
 
 # Database management with Docker
 db-up:
@@ -44,16 +54,16 @@ db-reset:
 
 # Package development commands
 package-install:
-	. .venv/bin/activate && uv pip install -e ./django-deepface-package
+	uv add --editable ./django-deepface-package
 
 package-uninstall:
-	. .venv/bin/activate && uv pip uninstall django-deepface -y
+	uv remove django-deepface
 
 package-test:
-	. .venv/bin/activate && cd django-deepface-package && pytest
+	cd django-deepface-package && uv run pytest
 
 package-build:
-	. .venv/bin/activate && cd django-deepface-package && python -m build
+	cd django-deepface-package && uv build
 
 # Clean up Python cache files
 clean:
