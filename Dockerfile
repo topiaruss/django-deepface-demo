@@ -28,20 +28,20 @@ RUN apt-get update && apt-get install -y \
 # Install uv for faster package installation
 RUN pip install uv
 
-# Copy requirements first for better caching
-COPY requirements.txt .
-
-# Install Python dependencies using uv
-RUN uv pip install --system -r requirements.txt
-
-# Pre-download DeepFace models to avoid runtime downloads
-RUN python -c "from deepface import DeepFace; DeepFace.build_model('VGG-Face')"
-
 # Copy project files
 COPY . .
 
-# Copy and make entrypoint script executable
-COPY docker-entrypoint.sh /app/
+# Install Python dependencies using uv
+RUN uv sync --frozen --no-dev
+
+# Activate the virtual environment by adding it to PATH
+ENV PATH="/app/.venv/bin:$PATH"
+
+# Pre-download DeepFace models to avoid runtime downloads
+# Commented out for cross-platform builds - models will download at runtime
+# RUN uv run python -c "from deepface import DeepFace; DeepFace.build_model('VGG-Face')"
+
+# Make entrypoint script executable
 RUN chmod +x /app/docker-entrypoint.sh
 
 # Create media directory
@@ -51,4 +51,4 @@ RUN mkdir -p /app/media
 ENTRYPOINT ["/app/docker-entrypoint.sh"]
 
 # Run gunicorn
-CMD ["gunicorn", "--bind", "0.0.0.0:8000", "--workers", "3", "django_deepface_demo.wsgi:application"] 
+CMD ["uv", "run", "gunicorn", "--bind", "0.0.0.0:8000", "--workers", "3", "django_deepface_demo.wsgi:application"] 

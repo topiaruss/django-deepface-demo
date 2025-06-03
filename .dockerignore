@@ -36,8 +36,9 @@ htmlcov
 .gitignore
 
 # Documentation
-*.md
 docs
+# Exclude docs but keep README.md for pyproject.toml
+!README.md
 
 # Environment files
 .env
