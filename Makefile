@@ -1,4 +1,4 @@
-.PHONY: init run test-all test-specific clean db-migrate package-install package-uninstall package-test package-build db-up db-down db-reset prod-build prod-up prod-down prod-logs prod-shell sync install-dev install-prod
+.PHONY: init run test-all test-specific clean db-migrate package-install package-uninstall package-test package-build db-up db-down db-reset prod-build prod-up prod-down prod-logs prod-shell sync install-dev install-prod helm-lint helm-template helm-install helm-upgrade helm-uninstall helm-package
 
 # Initialize project with uv
 init:
@@ -95,4 +95,26 @@ prod-logs:
 	docker-compose -f docker-compose.prod.yml logs -f
 
 prod-shell:
-	docker-compose -f docker-compose.prod.yml exec web bash 
+	docker-compose -f docker-compose.prod.yml exec web bash
+
+# Kubernetes/Helm deployment targets
+helm-lint:
+	helm lint helm/django-deepface-demo
+
+helm-template:
+	helm template django-deepface-demo helm/django-deepface-demo
+
+helm-install:
+	helm install django-deepface-demo helm/django-deepface-demo \
+		--create-namespace \
+		--namespace django-deepface-demo
+
+helm-upgrade:
+	helm upgrade django-deepface-demo helm/django-deepface-demo \
+		--namespace django-deepface-demo
+
+helm-uninstall:
+	helm uninstall django-deepface-demo --namespace django-deepface-demo
+
+helm-package:
+	helm package helm/django-deepface-demo
