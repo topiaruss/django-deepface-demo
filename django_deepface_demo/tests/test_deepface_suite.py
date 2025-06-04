@@ -32,11 +32,11 @@ class DeepFaceTestSuite(TestCase):
         )
 
         # Test the view
-        response = self.client.get(reverse("django_deepface_demo:device_stats"))
+        response = self.client.get(reverse("django_deepface_demo:stats"))
         self.assertEqual(response.status_code, 302)  # Redirects to login
 
         # Login and try again
         self.client.login(username="testuser", password="testpass123")
-        response = self.client.get(reverse("django_deepface_demo:device_stats"))
+        response = self.client.get(reverse("django_deepface_demo:stats"))
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "django_deepface_demo/device_stats.html")

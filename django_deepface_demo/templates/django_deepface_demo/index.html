@@ -16,8 +16,8 @@
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item">Face Detection</li>
                     <li class="list-group-item">Face Recognition</li>
-                    <li class="list-group-item">Emotion Analysis</li>
-                    <li class="list-group-item">Age and Gender Estimation</li>
+                    <li class="list-group-item">Up to 4 registered faces per user</li>
+                    <li class="list-group-item">User can upload a face image or capture a face image from a webcam</li>
                 </ul>
             </div>
         </div>
@@ -30,7 +30,10 @@
 </div>
 {% else %}
 <div class="alert alert-warning mt-4">
-    Please <a href="{% url 'django_deepface:login' %}" class="alert-link">log in</a> to access all features.
+    Please <a href="{% url 'django_deepface:login' %}" class="alert-link">log in</a> to try the features.
+    <br>
+    If it's your first time <a href="{% url 'django_deepface_demo:register' %}" class="alert-link">register</a>.
+
 </div>
 {% endif %}
 {% endblock %}

@@ -7,5 +7,6 @@ app_name = "django_deepface_demo"
 
 urlpatterns = [
     path("", views.index, name="index"),
-    path("device-stats/", views.device_stats_view, name="device_stats"),
+    path("register/", views.quick_register, name="register"),
+    path("stats/", views.device_stats_view, name="stats"),
 ]
