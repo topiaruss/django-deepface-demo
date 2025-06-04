@@ -11,18 +11,23 @@ imagePullSecrets:
 ingress:
   enabled: true
   className: ""
-  annotations: {}
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
   hosts:
-    - host: django-deepface-demo.local
+    - host: deepface.ogaro.com
       paths:
         - path: /
           pathType: Prefix
-  tls: []
+  tls:
+    - secretName: deepface-ogaro-com-tls
+      hosts:
+        - deepface.ogaro.com
 
 # Django configuration
 django:
   debug: false
-  allowedHosts: "django-deepface-demo.local,localhost,127.0.0.1"
+  allowedHosts: "deepface.ogaro.com,localhost,127.0.0.1"
   secretKey: ""  # Will be auto-generated
   database:
     external: true

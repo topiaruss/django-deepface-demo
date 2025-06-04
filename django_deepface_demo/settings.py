@@ -141,7 +141,14 @@ STATIC_ROOT = BASE_DIR / "staticfiles"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 ALLOWED_HOSTS = ["*"]
-DEBUG = os.getenv("DEBUG", "False")
+DEBUG = os.getenv("DEBUG", "False").lower() in ("true", "1", "yes")
+
+# CSRF trusted origins for production
+CSRF_TRUSTED_ORIGINS = [
+    "https://deepface.ogaro.com",
+    "http://localhost:8000",
+    "http://127.0.0.1:8000",
+]
 
 # Authentication settings
 LOGIN_URL = "django_deepface:login"
