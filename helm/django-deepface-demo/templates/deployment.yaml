@@ -62,9 +62,9 @@ spec:
             - "--bind"
             - "0.0.0.0:8000"
             - "--workers"
-            - "3"
+            - "{{ .Values.gunicorn.workers | default 3 }}"
             - "--timeout"
-            - "60"
+            - "{{ .Values.gunicorn.timeout | default 300 }}"
             - "django_deepface_demo.wsgi:application"
           ports:
             - name: http

@@ -33,6 +33,11 @@ django:
     external: true
     password: "postgres123"
 
+# Gunicorn configuration for runtime model loading
+gunicorn:
+  workers: 3  # Reduced to lower memory usage
+  timeout: 300  # 5 minutes for model download on first request
+
 # PostgreSQL configuration
 postgresql:
   enabled: false
@@ -43,10 +48,10 @@ postgresql:
 resources:
   limits:
     cpu: 500m
-    memory: 2Gi  # Increased for DeepFace models
+    memory: 4Gi  # Reduced to fit cluster capacity with 2 workers
   requests:
     cpu: 100m
-    memory: 1Gi  # Increased baseline
+    memory: 1Gi  # Conservative request for scheduling
 
 # Extended probe timeouts for DeepFace loading
 livenessProbe:
