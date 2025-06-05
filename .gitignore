@@ -10,3 +10,4 @@ django-deepface-package/
 django_deepface/
 *.tar.gz
 internal/
+.claude/
