@@ -11,6 +11,19 @@ register = template.Library()
 @lru_cache(maxsize=1)
 def get_git_commit():
     """Get the short git commit hash."""
+    # First try to read from the commit file (for container environment)
+    try:
+        project_root = os.path.dirname(
+            os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        )
+        commit_file = os.path.join(project_root, ".git_commit")
+        if os.path.exists(commit_file):
+            with open(commit_file, "r") as f:
+                return f.read().strip()
+    except (FileNotFoundError, IOError):
+        pass
+
+    # If no commit file, try git command (for development environment)
     try:
         result = subprocess.run(
             ["git", "rev-parse", "--short", "HEAD"],

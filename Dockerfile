@@ -23,6 +23,7 @@ RUN apt-get update && apt-get install -y \
     libglib2.0-0 \
     libgl1-mesa-glx \
     netcat-traditional \
+q    git \
     && rm -rf /var/lib/apt/lists/*
 
 # Install uv for faster package installation
@@ -30,6 +31,9 @@ RUN pip install uv
 
 # Copy project files
 COPY . .
+
+# Store git commit hash
+RUN git rev-parse --short HEAD > .git_commit || echo "unknown" > .git_commit
 
 # Install Python dependencies using uv
 RUN uv sync --frozen --no-dev
