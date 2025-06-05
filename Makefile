@@ -25,7 +25,7 @@ run:
 
 # Run all tests
 test-all:
-	uv run pytest --ff  --cov=django_deepface --cov-report=html
+	uv run pytest --ff --cov=django_deepface_demo --cov-report=html django_deepface_demo/tests
 
 test-all-first:
 	uv run pytest --ff -x 
@@ -83,7 +83,7 @@ clean:
 
 # Production deployment targets
 prod-build:
-	docker-compose -f docker-compose.prod.yml build
+	DOCKER_DEFAULT_PLATFORM=linux/amd64 NGINX_PORT=80 docker-compose -f docker-compose.prod.yml build
 
 prod-up:
 	docker-compose -f docker-compose.prod.yml up -d

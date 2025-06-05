@@ -10,7 +10,7 @@ class URLTests(TestCase):
     def test_device_stats_url(self):
         """Test device stats URL."""
         url = reverse("django_deepface_demo:stats")
-        self.assertEqual(url, "/demo/device-stats/")
+        self.assertEqual(url, "/demo/stats/")
         self.assertEqual(resolve(url).func.__name__, "device_stats_view")
 
     def test_index_url(self):
