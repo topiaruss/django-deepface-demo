@@ -79,14 +79,14 @@ WSGI_APPLICATION = "django_deepface_demo.wsgi.application"
 
 # Parse database connection url strings
 # like psql://user:pass@127.0.0.1:8458/db
-database_url = os.getenv('DATABASE_URL')
+database_url = os.getenv("DATABASE_URL")
 if not database_url:
     # Construct DATABASE_URL from individual components
-    db_host = os.getenv('DATABASE_HOST', 'localhost')
-    db_port = os.getenv('DATABASE_PORT', '5432')
-    db_name = os.getenv('DATABASE_NAME', 'deepface')
-    db_user = os.getenv('DATABASE_USER', 'postgres')
-    db_password = os.getenv('DATABASE_PASSWORD', '')
+    db_host = os.getenv("DATABASE_HOST", "localhost")
+    db_port = os.getenv("DATABASE_PORT", "5432")
+    db_name = os.getenv("DATABASE_NAME", "deepface")
+    db_user = os.getenv("DATABASE_USER", "postgres")
+    db_password = os.getenv("DATABASE_PASSWORD", "")
     database_url = f"postgresql://{db_user}:{db_password}@{db_host}:{db_port}/{db_name}"
 
 DATABASES = {

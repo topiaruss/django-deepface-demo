@@ -24,9 +24,13 @@ urlpatterns = [
 # Serve media files in production
 if settings.MEDIA_URL and settings.MEDIA_ROOT:
     urlpatterns += [
-        re_path(r'^media/(?P<path>.*)$', serve, {
-            'document_root': settings.MEDIA_ROOT,
-        }),
+        re_path(
+            r"^media/(?P<path>.*)$",
+            serve,
+            {
+                "document_root": settings.MEDIA_ROOT,
+            },
+        ),
     ]
 
 # Fallback for DEBUG mode

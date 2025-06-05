@@ -16,16 +16,16 @@ def index(request):
 
 def quick_register(request):
     """Quick registration view that redirects to login with credentials."""
-    if request.method == 'POST':
+    if request.method == "POST":
         form = QuickRegistrationForm(request.POST)
         if form.is_valid():
             user = form.save()
             # Add success message with credentials
             messages.success(
                 request,
-                f"Registration successful! Your username is '{user.username}' and your password is what you entered."
+                f"Registration successful! Your username is '{user.username}' and your password is what you entered.",
             )
-            return redirect('django_deepface:login')
+            return redirect("django_deepface:login")
     else:
         form = QuickRegistrationForm()
     return render(request, "django_deepface_demo/register.html", {"form": form})
